@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
       const hexInput = document.getElementById('hex-input');
       const unicodeOutput = document.getElementById('unicode-output');
       const sendButton = document.getElementById('send-button');
-      const byteAmount = document.getElementById('bit-amount');
+      const byteAmount = document.getElementById('byte-amount');
       const increaseButton = document.getElementById('increase-bytes');
       const decreaseButton = document.getElementById('decrease-bytes');
       const correctCounter = document.getElementById('correct-counter');
@@ -42,8 +42,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
       var mode = 1;
       var bytes = 4;
-      const minBytes = 4;
-      const maxBytes = 32;
+      const minBytes = 1;
+      const maxBytes = 4;
 
       if (nameInput.value) {
         sendName();
@@ -67,6 +67,7 @@ document.addEventListener('DOMContentLoaded', () => {
         else {
             refreshValue(bytes);
         }
+        byteAmount.textContent = bytes;
 
       });
 
@@ -79,6 +80,7 @@ document.addEventListener('DOMContentLoaded', () => {
               else {
                   refreshValue(bytes);
               }
+              byteAmount.textContent = bytes;
       });
 
       leaderboardReloader.addEventListener('click', () => {
