@@ -1,0 +1,16 @@
+<tr>
+    <td>{% if entry.index == 1 %}
+            &#x1F3C6;
+        {% elif entry.index == 2 %}
+            &#x1F948;
+        {% elif entry.index == 3 %}
+            &#x1F949;
+        {% else %}
+            {{ entry.index }}.
+        {% endif %}</td>
+    <td>{{ entry.name }}</td>
+    <td>{{ entry.correct }}</td>
+    <td>{{ entry.wrong }}</td>
+    <td>{{ entry.points }}</td>
+</tr>
+

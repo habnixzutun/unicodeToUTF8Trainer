@@ -1,0 +1,258 @@
+body {
+  background-color: #2f3136; /* Dunkler Hintergrund, ähnlich wie bei Discord */
+  font-family: sans-serif;
+  padding: 20px;
+}
+
+.tab-nav {
+  display: flex;
+  align-items: center;
+  padding: 2px;
+  background-color: #202225; /* Etwas dunklerer Hintergrund für die Leiste */
+  border-bottom: 1px solid #1a1b1e;
+  padding: 10px 15px;
+  flex-wrap: wrap;
+
+}
+
+.tab-item {
+  color: #b9bbbe; /* Helles Grau für den Text */
+  text-decoration: none;
+  padding: 4px 12px;
+  margin: 0 4px;
+  border-radius: 4px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  transition: all 0.2s ease;
+}
+
+/* Styling für den ausgewählten Tab */
+.tab-item.active {
+  color: #ffffff; /* Weißer Text für den aktiven Tab */
+  background-color: #3b3d44; /* Hellerer grauer Hintergrund */
+}
+
+/* Hover-Effekt für nicht-aktive Tabs */
+.tab-item:not(.active):hover {
+  background-color: #32353b;
+  color: #dcddde;
+}
+
+/* Icon und Text im ersten Tab */
+.tab-item.has-icon svg {
+  margin-right: 8px;
+  color: #b9bbbe; /* Farbe des Icons */
+}
+.tab-item.has-icon.active svg {
+  color: #ffffff; /* Farbe des Icons im aktiven Zustand */
+}
+
+/* Der kleine Trennpunkt */
+.separator {
+  width: 1px;
+  height: 16px;
+  background-color: #3b3d44;
+  margin: 0 8px;
+}
+
+.converter-box {
+  background-color: #202225;
+  border-radius: 8px;
+  margin-top: 20px;
+  padding: 16px;
+}
+
+/* Anzeige für die Hexadezimalzahl */
+.hex-display {
+  color: #b9bbbe;
+  font-family: monospace; /* Gut für Zahlendarstellung */
+  margin-bottom: 8px;
+  padding-left: 12px;
+}
+
+.byte-display {
+  color: #b9bbbe;
+  font-size: 20px;
+  font-family: monospace; /* Gut für Zahlendarstellung */
+  margin-bottom: 8px;
+  padding-left: 12px;
+}
+
+/* Wrapper für das Eingabefeld (um es wie das Discord-Suchfeld zu stylen) */
+.input-wrapper {
+  background-color: #2f3136; /* Dunklerer Hintergrund für das Feld */
+  border-radius: 4px;
+  padding: 8px 12px;
+}
+
+/* Das eigentliche Eingabefeld */
+.input-field {
+  width: 100%;
+  background: none;
+  border: none;
+  outline: none;
+  color: #dcddde; /* Helle Textfarbe */
+  font-size: 16px;
+}
+
+/* Das eigentliche Eingabefeld */
+#byte-input {
+  width: 50px;
+  background: none;
+  border: none;
+  outline: none;
+  color: #dcddde; /* Helle Textfarbe */
+  font-size: 16px;
+}
+
+.byte-input::placeholder {
+  color: #72767d;
+}
+
+/* Das eigentliche Eingabefeld */
+.byte-button {
+  border: none;
+  outline: none;
+  background: #2f3136;
+  font-size: 20px;
+  font-weight: bolder;
+
+  border-radius: 4px;
+  color: #b9bbbe;
+}
+
+.info-box {
+  display: flex;
+  justify-content: space-between;
+  color: #b9bbbe;
+  align-items: baseline;
+}
+
+.counter {
+    padding: 5px;
+}
+
+.byte-selector {
+    font-size: 20px;
+}
+
+.name-input-wrapper {
+  position: relative; /* Wichtig für die Positionierung des Buttons */
+  display: inline-block; /* Sorgt dafür, dass der Container nur so breit ist wie sein Inhalt */
+  background-color: #2f3136; /* Dunklerer Hintergrund für das Feld */
+  border-radius: 4px;
+  padding: 0px 12px;
+}
+
+.name-input-wrapper input {
+  padding-right: 110px; /* Schafft Platz im Input-Feld für den Button */
+  height: 40px;
+  width: 100%;
+  box-sizing: border-box; /* Stellt sicher, dass Padding die Gesamtbreite nicht erhöht */
+}
+
+.name-input-wrapper button {
+  border: none;
+  outline: none;
+  background: #2f3136;
+  font-size: 20px;
+  font-weight: bolder;
+
+  border-radius: 4px;
+  color: #b9bbbe;
+  position: absolute; /* Löst den Button aus dem normalen Fluss */
+  right: 5px; /* Positioniert den Button 5px vom rechten Rand */
+  top: 50%; /* Zentriert den Button vertikal */
+  transform: translateY(-50%); /* Feinabstimmung für die vertikale Zentrierung */
+  width: 10%; /* Breite des Buttons */
+  height: 30px;
+  cursor: pointer;
+}
+
+/* --- Responsive Design für Mobilgeräte --- */
+
+@media (max-width: 600px) {
+
+  /* Etwas weniger Abstand am Rand auf kleinen Bildschirmen */
+  body {
+    padding: 10px;
+  }
+
+  /* Etwas weniger Innenabstand in den Boxen */
+  .converter-box {
+    padding: 12px;
+  }
+
+  /*
+   * Wichtigster Teil: Die Info-Box wird neu angeordnet.
+   * 'flex-direction: column' stapelt die Elemente vertikal statt horizontal.
+   * 'align-items: flex-start' richtet sie linksbündig aus.
+   * 'gap' erzeugt einen kleinen Abstand zwischen den gestapelten Elementen.
+  */
+  .info-box {
+    align-items: center;
+    gap: 12px;
+  }
+
+  /* Optional: Schrift in den Tabs etwas verkleinern */
+  .tab-item {
+    padding: 8px 8px;
+    font-size: 14px;
+  }
+}
+
+/* NEU: Styling für die Bestenliste */
+.leaderboard-title {
+  color: #dcddde; /* Helle Textfarbe für den Titel */
+  font-size: 20px;
+  margin-bottom: 15px;
+  padding-left: 12px; /* Ausrichtung an den anderen Elementen */
+}
+
+.leaderboard-table {
+  width: 100%; /* Die Tabelle soll die volle Breite des Containers einnehmen */
+  border-collapse: collapse; /* Entfernt den Abstand zwischen den Zellrahmen */
+  color: #b9bbbe; /* Standardtextfarbe für die Tabelle */
+  font-family: sans-serif; /* Einheitliche Schriftart */
+}
+
+.leaderboard-table th,
+.leaderboard-table td {
+  padding: 10px 12px; /* Innenabstand für Zellen */
+  text-align: left; /* Text linksbündig ausrichten */
+  border-bottom: 1px solid #3b3d44; /* Trennlinie zwischen den Zeilen */
+}
+
+.leaderboard-table th {
+  background-color: #2f3136; /* Etwas dunklerer Hintergrund für den Tabellenkopf */
+  font-weight: 600; /* Fetterer Text für Überschriften */
+  color: #dcddde; /* Hellerer Text für Überschriften */
+}
+
+.leaderboard-table tbody tr:last-child td {
+  border-bottom: none; /* Keine Linie unter der letzten Zeile */
+}
+
+.leaderboard-table tbody tr:hover {
+  background-color: #32353b; /* Hintergrundfarbe beim Hovern über eine Zeile */
+}
+
+/* Responsives Design für die Bestenliste auf Mobilgeräten */
+@media (max-width: 600px) {
+  .leaderboard-table th,
+  .leaderboard-table td {
+    padding: 8px 10px; /* Etwas weniger Padding auf kleinen Bildschirmen */
+    font-size: 14px; /* Kleinere Schriftgröße */
+  }
+
+  .leaderboard-title {
+    font-size: 18px; /* Kleinerer Titel auf Mobilgeräten */
+    margin-bottom: 10px;
+  }
+}
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}

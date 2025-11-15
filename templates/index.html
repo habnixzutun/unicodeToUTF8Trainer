@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="de">
+    <head>
+        <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+        <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>UnicodeToUTF8Trainer</title>
+        <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='img/favicon.ico') }}">
+    </head>
+    <body>
+        <!-- Nav Bar -->
+        <div class="container">
+            <nav class="tab-nav">
+                <a href="" class="tab-item active">UniToUTF8</a>
+            </nav>
+        </div>
+        <!-- Ende Nav Bar -->
+
+        <!-- Bit selector & Name -->
+        <div class="converter-box">
+            <div class="info-box">
+                <div class="byte-selector">
+                    <span class="byte-display">Bytes: </span>
+                    <span class="byte-display" id="byte-amount">08</span>
+                    <span style="padding-inline: 5px;"></span>
+                    <button hidden id="byte-button">An Backend senden</button>
+                    <button id="increase-bytes" class="byte-button">+</button>
+                    <button id="decrease-bytes" class="byte-button">-</button>
+                </div>
+                <div class="name-input-wrapper">
+                    <label for="name-input"></label>
+                    <input type="text" class="input-field" value="{{ name }}" id="name-input" placeholder="Name..." autocomplete="off">
+                    <button type="submit" id="name-button">&checkmark;</button>
+                </div>
+            </div>
+        </div>
+        <!-- Ende Bit selector & Name -->
+
+
+        <!-- Hex to Bin -->
+        <div id="hex-to-bin">
+            <div class="converter-box">
+                <div class="info-box">
+                    <div class="hex-display" id="hex-output"></div>
+                    <div>
+                        &#x2705;<span class="counter" id="correct-counter">{{ correct }}</span>
+                        &#x274C;<span class="counter" id="wrong-counter">{{ wrong }}</span>
+                        &#x2728;<span class="counter" id="points-counter">{{ points }}</span>
+                    </div>
+                </div>
+                <div class="input-wrapper">
+                    <label for="bin-input"></label>
+                    <input type="text" class="input-field" id="bin-input" placeholder="Binärzahl eingeben..." autocomplete="off" disabled>
+                </div>
+                <button hidden id="send-button">An Backend senden</button>
+            </div>
+        </div>
+        <!-- Ende Hex to Bin -->
+
+        <!-- Leaderboard -->
+        <div class="converter-box">
+            <div class="table-header">
+                <h3 class="leaderboard-title">Bestenliste</h3>
+                <button class="byte-button" id="leaderboard-reloader">&#x27F3;</button>
+            </div>
+            <table class="leaderboard-table">
+                <thead>
+                    <tr>
+                        <th>Platz</th>
+                        <th>Name</th>
+                        <th>Richtig &#x2705;</th>
+                        <th>Falsch &#x274C;</th>
+                        <th>Punkte &#x2728;</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for entry in leaderboard %}
+                        {% include 'partials/leaderboard_row.html' %}
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        <!-- Ende Leaderboard -->
+    </body>
+</html>
