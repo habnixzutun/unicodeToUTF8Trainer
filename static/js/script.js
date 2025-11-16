@@ -227,9 +227,22 @@ document.addEventListener('DOMContentLoaded', () => {
                         sendData();
                     }
                     else {
+                        var hexUnicode = unicodeOutput.textContent.replace("U+", "");
+                        var binUnicode = parseInt(hexUnicode, 16).toString(2);
+                        var binUTF8 = convertUnicodeToBinUTF8(hexUnicode);
+                        var hexUTF8 = convertBinUTF8ToHexUTF8(binUTF8);
+
                         increaseWrong();
                         sendData();
-                        alert("Wrong");
+                        var wrongMessage = "";
+                        wrongMessage += "\nUnicode: U+" + hexUnicode;
+                        wrongMessage += "\nBin Unicode: 0b" + binUnicode;
+                        wrongMessage += "\nBin UTF-8: 0b" + binUTF8.replaceAll(" ", " 0b");
+                        wrongMessage += "\nHex Unicode: 0x" + hexUTF8.join(" 0x");
+                        wrongMessage += "\n\n0x / 0b bitte nicht eingeben\nLeerzeichen werden ignoriert"
+
+                        alert("Wrong" + wrongMessage);
+                        console.log(parseInt(binUnicodeInput.value.replaceAll(" ", ""), 2), parseInt(binUnicode, 2));
                     }
                     break;
             }
