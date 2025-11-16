@@ -75,14 +75,14 @@ def post_data():
         JSON[name]["history"].append({
             "timestamp": datetime.now().timestamp(),
             "mode": data.get("trainMode"),
-            "bits": data.get("len"),
+            "bytes": data.get("len"),
             "correct": True
         })
     elif old_wrong + 1 == JSON[name]["wrong"]:
         JSON[name]["history"].append({
             "timestamp": datetime.now().timestamp(),
             "mode": data.get("trainMode"),
-            "bits": data.get("len"),
+            "bytes": data.get("len"),
             "correct": False
         })
 
