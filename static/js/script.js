@@ -14,7 +14,9 @@ document.addEventListener('DOMContentLoaded', () => {
       switch (clickedTab.textContent) {
         case "UniToUTF8":
             mode = 1;
-            binInput.placeholder = "Binärzahl eingeben... ";
+            binUnicodeInput.placeholder = "Unicode in Binär eingeben";
+            binInput.placeholder = "UTF-8 in Binär eingeben (z.B. 11001010 10011001)";
+            hexInput.placeholder = "UTF-8 in Hex eingeben (z.B. CA 99)";
             break;
       }
       if (tmp != mode) {
@@ -24,6 +26,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log(mode);
     });
   });
+      const binUnicodeInput = document.getElementById('bin-unicode-input');
       const binInput = document.getElementById('bin-input');
       const hexInput = document.getElementById('hex-input');
       const unicodeOutput = document.getElementById('unicode-output');
@@ -54,8 +57,72 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       function refreshValue(bytes) {
+        switch (bytes) {
+            case 4:
+                var decimalValue = randomIntFromInterval(Math.pow(2, 17), 1112064); // 1112064 ist the max valid unicode codepoint
+                break;
+            case 3:
+                var decimalValue = randomIntFromInterval(Math.pow(2, 12), Math.pow(2, 16));
+                break;
+            case 2:
+                var decimalValue = randomIntFromInterval(Math.pow(2, 8), Math.pow(2, 11));
+                break;
+            case 1:
+                var decimalValue = randomIntFromInterval(0, Math.pow(2, 7));
+                break;
+        }
+        var binUnicode = decimalValue.toString(2);
+        var hexUnicode = decimalValue.toString(16).toUpperCase();
+        console.log(binUnicode, "bin");
+        unicodeOutput.textContent = "U+" + hexUnicode;
+        var binUTF8 = convertUnicodeToBinUTF8(hexUnicode);
+        var hexUTF8 = convertBinUTF8ToHexUTF8(binUTF8);
+        console.log("UTF8: " + binUTF8);
+        console.log("UTF8: " + hexUTF8.join(" "));
+
+
         return;
       }
+
+      function convertUnicodeToBinUTF8(hexUnicode) {
+        binUnicode = parseInt(hexUnicode, 16).toString(2);
+        var utf8 = "";
+        switch (bytes) {
+            case 4:
+                binUnicode = binUnicode.padStart(21, "0");
+                utf8 += "11110" + binUnicode.substring(0, 3);
+                utf8 += " 10" + binUnicode.substring(3, 9);
+                utf8 += " 10" + binUnicode.substring(9, 15);
+                utf8 += " 10" + binUnicode.substring(15, 21);
+                break;
+            case 3:
+                binUnicode = binUnicode.padStart(16, "0");
+                utf8 += "1110" + binUnicode.substring(0, 4);
+                utf8 += " 10" + binUnicode.substring(4, 10);
+                utf8 += " 10" + binUnicode.substring(10, 16);
+                break;
+            case 2:
+                binUnicode = binUnicode.padStart(11, "0");
+                utf8 += "110" + binUnicode.substring(0, 5);
+                utf8 += " 10" + binUnicode.substring(5, 11);
+                break;
+            case 1:
+                binUnicode = binUnicode.padStart(8, "0");
+                utf8 = binUnicode;
+                break;
+        }
+        return utf8
+      }
+
+      function convertBinUTF8ToHexUTF8(binUTF8) {
+        var inArray = binUTF8.split(" ");
+        var outArray = new Array();
+        for (var i = 0; i < inArray.length; i++) {
+            outArray[i] = parseInt(inArray[i], 2).toString(16).toUpperCase();
+        }
+        return outArray;
+      }
+
 
       increaseButton.addEventListener('click', () => {
         bytes++;
@@ -98,17 +165,40 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       function check_io_overlap_mode1() {
-        return false;
+        var hexUnicode = unicodeOutput.textContent.replace("U+", "");
+        var binUnicode = parseInt(hexUnicode, 16).toString(2);
+        var binUTF8 = convertUnicodeToBinUTF8(hexUnicode);
+        var hexUTF8 = convertBinUTF8ToHexUTF8(binUTF8);
+
+
+        if (parseInt(binUnicodeInput.value.replaceAll(" ", ""), 2) != parseInt(binUnicode, 2)) return false;
+        if (parseInt(binInput.value.replaceAll(" ", ""), 2) != parseInt(binUTF8.replaceAll(" ", ""), 2)) return false;
+        if (parseInt(hexInput.value.replaceAll(" ", ""), 16) != parseInt(hexUTF8.join(""), 16)) return false;
+        return true
       }
+
+      // Live-Umrechnung (bleibt wie zuvor)
+      binUnicodeInput.addEventListener('input', () => {
+           switch (mode) {
+                case 1:
+                    var binaryValue = binUnicodeInput.value.replace(/[^01 ]/g, '');
+                    // add separator
+                    //binaryValue = binaryValue.replace(/\s/g, ' ');
+                    //binaryValue = binaryValue.replace(/\B(?=(?:.{8})+$)/g, ' ');
+                    binUnicodeInput.value = binaryValue;
+                    break;
+            }
+
+      });
 
       // Live-Umrechnung (bleibt wie zuvor)
       binInput.addEventListener('input', () => {
            switch (mode) {
                 case 1:
-                    var binaryValue = binInput.value.replace(/[^01]/g, '');
+                    var binaryValue = binInput.value.replace(/[^01 ]/g, '');
                     // add separator
-                    binaryValue = binaryValue.replace(/\s/g, '_');
-                    binaryValue = binaryValue.replace(/\B(?=(?:.{4})+$)/g, '_');
+                    //binaryValue = binaryValue.replace(/\s/g, ' ');
+                    //binaryValue = binaryValue.replace(/\B(?=(?:.{8})+$)/g, ' ');
                     binInput.value = binaryValue;
                     break;
             }
@@ -119,47 +209,39 @@ document.addEventListener('DOMContentLoaded', () => {
       hexInput.addEventListener('input', () => {
            switch (mode) {
                 case 1:
-                    var hexValue = hexInput.value.toUpperCase().replace(/[^0123456789ABCDEF]/g, '');
+                    var hexValue = hexInput.value.toUpperCase().replace(/[^0123456789ABCDEF ]/g, '');
+                    //hexValue = hexValue.replace(/\s/g, ' ');
+                    //hexValue = hexValue.replace(/\B(?=(?:.{2})+$)/g, ' ');
                     hexInput.value = hexValue;
                     break;
             }
 
       });
 
-      // Event-Listener für den Sende-Button (ruft jetzt nur die Funktion auf)
-      sendButton.addEventListener('click', () => refreshValue(bytes));
 
-      // NEU: Event-Listener für Tastendrücke im Eingabefeld
-      binInput.addEventListener('keydown', (event) => {
-          // Prüfen, ob die gedrückte Taste "Enter" ist
-          if (event.key === 'Enter') {
-              // Verhindert das Standardverhalten (z.B. Formular-Absenden, das einen Reload auslöst)
-              event.preventDefault();
-
-                switch (mode) {
-                    case 1:
-                         if (check_io_overlap_mode1()) {
-                             increaseCorrect();
-                             sendData();
-                         }
-                         else {
-                             increaseWrong();
-                             sendData();
-                             alert("Wrong! " + "");
-                         }
-                         binInput.value = "";
-                         break;
-                }
-
-
-              refreshValue(bytes);
-          }
+      sendButton.addEventListener('click', () => {
+            switch (mode) {
+                case 1:
+                    if (check_io_overlap_mode1()) {
+                        increaseCorrect();
+                        sendData();
+                    }
+                    else {
+                        increaseWrong();
+                        sendData();
+                        alert("Wrong");
+                    }
+                    break;
+            }
+            refreshValue(bytes);
+            binUnicodeInput.value = "";
+            binInput.value = "";
+            hexInput.value = "";
       });
 
       nameInput.addEventListener('keydown', (event) => {
           // Prüfen, ob die gedrückte Taste "Enter" ist
           if (event.key === 'Enter') {
-              // Verhindert das Standardverhalten (z.B. Formular-Absenden, das einen Reload auslöst)
               event.preventDefault();
               sendName();
           }
@@ -193,6 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
                       wrongCounter.textContent = result.wrong;
                       pointsCounter.textContent = result.points;
                       binInput.removeAttribute("disabled");
+                      binUnicodeInput.removeAttribute("disabled");
                       hexInput.removeAttribute("disabled");
                       nameInput.setAttribute("disabled", "disabled");
                       nameButton.setAttribute("disabled", "disabled");

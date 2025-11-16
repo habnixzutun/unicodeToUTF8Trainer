@@ -64,7 +64,7 @@ body {
 }
 
 /* Anzeige für die Hexadezimalzahl */
-.hex-display {
+.unicode-display {
   color: #b9bbbe;
   font-family: monospace; /* Gut für Zahlendarstellung */
   margin-bottom: 8px;
@@ -255,4 +255,10 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+.button-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    padding: 15px 0;
 }
