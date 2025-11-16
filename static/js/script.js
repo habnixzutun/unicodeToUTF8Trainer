@@ -115,6 +115,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
       });
 
+      // Live-Umrechnung (bleibt wie zuvor)
+      hexInput.addEventListener('input', () => {
+           switch (mode) {
+                case 1:
+                    var binaryValue = binInput.value.replace(/[^01]/g, '');
+                    // add separator
+                    binaryValue = binaryValue.replace(/\s/g, '_');
+                    binaryValue = binaryValue.replace(/\B(?=(?:.{4})+$)/g, '_');
+                    binInput.value = binaryValue;
+                    break;
+            }
+
+      });
+
       // Event-Listener für den Sende-Button (ruft jetzt nur die Funktion auf)
       sendButton.addEventListener('click', () => refreshValue(bytes));
 
@@ -182,6 +196,7 @@ document.addEventListener('DOMContentLoaded', () => {
                       wrongCounter.textContent = result.wrong;
                       pointsCounter.textContent = result.points;
                       binInput.removeAttribute("disabled");
+                      hexInput.removeAttribute("disabled");
                       nameInput.setAttribute("disabled", "disabled");
                       nameButton.setAttribute("disabled", "disabled");
                   }
