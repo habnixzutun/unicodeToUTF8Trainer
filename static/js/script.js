@@ -119,11 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
       hexInput.addEventListener('input', () => {
            switch (mode) {
                 case 1:
-                    var binaryValue = binInput.value.replace(/[^01]/g, '');
-                    // add separator
-                    binaryValue = binaryValue.replace(/\s/g, '_');
-                    binaryValue = binaryValue.replace(/\B(?=(?:.{4})+$)/g, '_');
-                    binInput.value = binaryValue;
+                    var hexValue = hexInput.value.toUpperCase().replace(/[^0123456789ABCDEF]/g, '');
+                    hexInput.value = hexValue;
                     break;
             }
 
