@@ -292,6 +292,9 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
       async function sendName() {
+        if (nameInput.value == "") {
+            alert("Bitte einen Namen eingeben");
+        }
         console.log('Sende Name:', {name: nameInput.value});
               try {
                   console.log(url.href + '/name');
