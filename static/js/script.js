@@ -306,6 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
                       binInput.removeAttribute("disabled");
                       binUnicodeInput.removeAttribute("disabled");
                       hexInput.removeAttribute("disabled");
+                      sendButton.removeAttribute("disabled");
                       nameInput.setAttribute("disabled", "disabled");
                       nameButton.setAttribute("disabled", "disabled");
                   }
