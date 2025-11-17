@@ -19,7 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
             hexInput.placeholder = "UTF-8 in Hex eingeben (z.B. CA 99)";
             break;
         case "HexToBinTrainer":
-            window.location.replace("http://server.albecker.eu/hextobin");
+            window.location.replace("https://server.albecker.eu/hextobin");
             break;
       }
       if (tmp != mode) {
