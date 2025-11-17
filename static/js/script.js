@@ -44,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log(url)
 
       var mode = 1;
-      var bytes = 4;
+      var bytes = 3;
       const minBytes = 1;
       const maxBytes = 4;
 
