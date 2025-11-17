@@ -48,6 +48,20 @@ document.addEventListener('DOMContentLoaded', () => {
       const minBytes = 1;
       const maxBytes = 4;
 
+      window.addEventListener('load', function () {
+          if (localStorage.getItem("bytes")) {
+              if (parseInt(localStorage.getItem("bytes")) != bytes) {
+                  byteAmount.textContent = localStorage.getItem("bytes");
+                  bytes = parseInt(localStorage.getItem("bytes"));
+                  refreshValue(bytes);
+              }
+          }
+          else {
+              byteAmount.textContent = bytes;
+          }
+      })
+
+
       if (nameInput.value) {
         sendName();
       }
@@ -133,6 +147,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         else {
             refreshValue(bytes);
+            localStorage.setItem("bytes", bytes);
         }
         byteAmount.textContent = bytes;
 
@@ -146,6 +161,7 @@ document.addEventListener('DOMContentLoaded', () => {
               }
               else {
                   refreshValue(bytes);
+                  localStorage.setItem("bytes", bytes);
               }
               byteAmount.textContent = bytes;
       });
@@ -277,7 +293,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                              name: nameInput.value,
                                              prev_correct: parseInt(correctCounter.textContent),
                                              prev_wrong: parseInt(wrongCounter.textContent),
-                                             len: bytes
+                                             len: bytes * 8
                                              })
                   });
 
@@ -306,7 +322,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     alert("Bitte einen Namen eingeben");
               }
 
-              console.log('Sende Daten:', { len: bytes,
+              console.log('Sende Daten:', { len: bytes * 8,
                                             name: nameInput.value,
                                             right: parseInt(correctCounter.textContent),
                                             incorrect: parseInt(wrongCounter.textContent),
@@ -322,7 +338,7 @@ document.addEventListener('DOMContentLoaded', () => {
                       },
                       body: JSON.stringify({
                                              name: nameInput.value,
-                                             len: bytes,
+                                             len: bytes * 8,  // bytes back to bits
                                              right: parseInt(correctCounter.textContent),
                                              incorrect: parseInt(wrongCounter.textContent),
                                              name: nameInput.value,
