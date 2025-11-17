@@ -62,6 +62,12 @@ document.addEventListener('DOMContentLoaded', () => {
           else {
               byteAmount.textContent = bytes;
           }
+          if (localStorage.getItem("name")) {
+            if (localStorage.getItem("name") != nameInput.value) {
+                nameInput.value = localStorage.getItem("name");
+                sendName();
+              }
+          }
       })
 
 
@@ -275,11 +281,13 @@ document.addEventListener('DOMContentLoaded', () => {
           // Prüfen, ob die gedrückte Taste "Enter" ist
           if (event.key === 'Enter') {
               event.preventDefault();
+              localStorage.setItem("name", nameInput.value)
               sendName();
           }
       });
 
       nameButton.addEventListener("click", () => {
+        localStorage.setItem("name", nameInput.value)
         sendName();
       });
 
@@ -325,6 +333,7 @@ document.addEventListener('DOMContentLoaded', () => {
               if (nameInput.value == "") {
                     alert("Bitte einen Namen eingeben");
               }
+              localStorage.setItem("name", nameInput.value);
 
               console.log('Sende Daten:', { len: bytes * 8,
                                             name: nameInput.value,
