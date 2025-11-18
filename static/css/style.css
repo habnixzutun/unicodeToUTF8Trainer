@@ -262,3 +262,9 @@ body {
     justify-content: flex-end;
     padding: 15px 0;
 }
+
+.not-found-image {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

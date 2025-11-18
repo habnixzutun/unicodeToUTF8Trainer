@@ -150,6 +150,11 @@ def favicon():
     return send_from_directory(os.path.join(app.root_path, 'static'), 'static/img/favicon.ico', mimetype='image/vnd.microsoft.icon')
 
 
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template("404.html")
+
+
 def init_json():
     with open("storage.json", "w") as file:
         dump({}, file)
