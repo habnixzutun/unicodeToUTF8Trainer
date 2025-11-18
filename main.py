@@ -1,4 +1,5 @@
 from datetime import datetime
+from functools import wraps
 from hashlib import sha256
 from json import load, dump
 from os.path import isdir
@@ -24,7 +25,21 @@ QUEUE = Queue()
 JSON = {}
 
 
+def check_for_request_from_browser(func):
+    @wraps(func)
+    def decorator(*args, **kwargs):
+        if "curl" in request.headers.get("User-Agent") or not request.headers.get("User-Agent"):
+            return jsonify({
+                "status": "error",
+                "message": "Unknown Error",
+            }), 400
+        return func(*args, **kwargs)
+
+    return decorator
+
+
 @app.route("/", methods=["GET"])
+@check_for_request_from_browser
 def index():
     ip = hash(request.remote_addr)
     name = get_name_from_ip(ip)
@@ -44,6 +59,7 @@ def index():
 
 
 @app.route("/data", methods=["POST"])
+@check_for_request_from_browser
 def post_data():
     data = request.get_json()
     if not data or not data.get("len") or not (data.get("right") or data.get("incorrect")):
@@ -98,6 +114,7 @@ def post_data():
 
 
 @app.route("/name", methods=["POST"])
+@check_for_request_from_browser
 def post_name():
     data = request.get_json()
     if not data or not data.get("name"):
