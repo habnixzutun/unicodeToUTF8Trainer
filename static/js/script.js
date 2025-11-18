@@ -53,15 +53,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const maxBytes = 4;
 
       window.addEventListener('load', function () {
+      console.log(localStorage.getItem("bytes"), bytes, byteAmount.textContent)
           if (localStorage.getItem("bytes")) {
-              if (parseInt(localStorage.getItem("bytes")) != bytes) {
-                  byteAmount.textContent = localStorage.getItem("bytes");
-                  bytes = parseInt(localStorage.getItem("bytes"));
-                  refreshValue(bytes);
-              }
+              byteAmount.textContent = localStorage.getItem("bytes");
+              bytes = parseInt(localStorage.getItem("bytes"));
+              refreshValue(bytes);
           }
           else {
               byteAmount.textContent = bytes;
+              refreshValue(bytes);
           }
           if (localStorage.getItem("name")) {
             if (localStorage.getItem("name") != nameInput.value) {
@@ -94,6 +94,8 @@ document.addEventListener('DOMContentLoaded', () => {
             case 1:
                 var decimalValue = randomIntFromInterval(0, Math.pow(2, 7));
                 break;
+            default:
+                var decimalValue = 0;
         }
         var binUnicode = decimalValue.toString(2);
         var hexUnicode = decimalValue.toString(16).toUpperCase();
