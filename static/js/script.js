@@ -97,12 +97,9 @@ document.addEventListener('DOMContentLoaded', () => {
         }
         var binUnicode = decimalValue.toString(2);
         var hexUnicode = decimalValue.toString(16).toUpperCase();
-        console.log(binUnicode, "bin");
         unicodeOutput.textContent = "U+" + hexUnicode;
         var binUTF8 = convertUnicodeToBinUTF8(hexUnicode);
         var hexUTF8 = convertBinUTF8ToHexUTF8(binUTF8);
-        console.log("UTF8: " + binUTF8);
-        console.log("UTF8: " + hexUTF8.join(" "));
 
 
         return;
@@ -268,7 +265,6 @@ document.addEventListener('DOMContentLoaded', () => {
                         wrongMessage += "\n\n0x / 0b bitte nicht eingeben\nLeerzeichen werden ignoriert"
 
                         alert("Wrong" + wrongMessage);
-                        console.log(parseInt(binUnicodeInput.value.replaceAll(" ", ""), 2), parseInt(binUnicode, 2));
                     }
                     break;
             }
