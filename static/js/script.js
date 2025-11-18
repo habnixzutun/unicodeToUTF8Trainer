@@ -18,7 +18,7 @@ document.addEventListener('DOMContentLoaded', () => {
             binInput.placeholder = "UTF-8 in Binär eingeben (z.B. 11001010 10011001)";
             hexInput.placeholder = "UTF-8 in Hex eingeben (z.B. CA 99)";
             break;
-        case "HexToBinTrainer":
+        case "🔗 HexToBinTrainer":
             window.location.replace("https://server.albecker.eu/hextobin");
             break;
       }
