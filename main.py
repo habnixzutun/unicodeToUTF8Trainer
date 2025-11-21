@@ -28,7 +28,7 @@ JSON = {}
 def check_for_request_from_browser(func):
     @wraps(func)
     def decorator(*args, **kwargs):
-        if "curl" in request.headers.get("User-Agent") or not request.headers.get("User-Agent"):
+        if not request.headers.get("User-Agent") or "curl" in request.headers.get("User-Agent"):
             return jsonify({
                 "status": "error",
                 "message": "Unknown Error",
